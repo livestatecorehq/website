@@ -85,7 +85,7 @@ header{border-bottom:3px solid #ee8656}
 @media(min-width:1240px){.cs-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:950px){.cs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:730px){main{padding:13px 12px 80px}.cs-grid{gap:8px}.cs-photo{height:100px}.cs-card{padding:9px}.cs-store .cs-product{font-size:14px}.cs-save{display:none}.cs-filters{margin-bottom:13px}.cs-shelf h2{font-size:19px}.cs-phone-cart{position:fixed;z-index:4;bottom:max(9px,env(safe-area-inset-bottom));left:12px;right:12px;display:flex;align-items:center;justify-content:space-between;border:0;border-radius:8px;background:#122a3e;color:white!important;padding:10px 15px;font-weight:700!important;box-shadow:0 3px 14px #17304742}.cs-quick-line input{min-width:90px}.cs-quick-line{flex-wrap:nowrap}.cs-quick-line button{padding:6px 9px;font-size:13px}}
-.cs-filter-panel{margin:0 0 12px}.cs-filter-panel summary{width:max-content;cursor:pointer;line-height:44px;font-size:13px;font-weight:700;color:#345367}.cs-filter-panel .cs-filters{margin:0 0 8px}.cs-quick{margin-bottom:0}</style></head><body><header><strong>CAGE<span>STOCK</span></strong><small>Team supply demo</small></header><div class="sub">Demo illustrations &amp; prices · No orders or charges</div><main id="main"></main><footer style="padding:16px;text-align:center"><a style="color:#315263" href="./review/">View the full demo walkthrough and sample invoice</a></footer><script>(() => {
+.cs-filter-panel{margin:0 0 12px}.cs-filter-panel summary{width:max-content;cursor:pointer;line-height:44px;font-size:13px;font-weight:700;color:#345367}.cs-filter-panel .cs-filters{margin:0 0 8px}.cs-quick{margin-bottom:0}</style></head><body><header><strong>CAGE<span>STOCK</span></strong><small>Team supply demo</small></header><div class="sub">Demo illustrations &amp; prices · No orders or charges</div><p id="invite-disclosure" hidden style="text-align:center;font:12px system-ui">This school invitation records visits and refill steps.</p><script defer src="./pilot-activity.js"></script><main id="main"></main><footer style="padding:16px;text-align:center"><a style="color:#315263" href="./review/">View the full demo walkthrough and sample invoice</a></footer><script>(() => {
   'use strict';
   const formatMoney = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
   const money = cents => formatMoney.format(cents / 100);
@@ -206,9 +206,13 @@ header{border-bottom:3px solid #ee8656}
         }
       });
     }
+    function activity(stage) { window.dispatchEvent(new CustomEvent('cagestock:activity',{detail:stage})); }
+    function added() { activity('add'); if(lines().length >= 3) activity('three-items'); }
     function setQty(p, qty) {
       if (!editable || !available(p) || !Number.isSafeInteger(qty) || qty < 0 || qty > 9999 || qty % p.step) return;
+      const increased = qty > (quantities[p.sku] || 0);
       quantities[p.sku] = qty;
+      if (increased) added();
       estimate = null;
       scheduleSave();
     }
@@ -399,7 +403,13 @@ header{border-bottom:3px solid #ee8656}
           else if(quickEdits.some(x=>x.options.length>1&&!x.sku)){feedback='Choose each ambiguous item before applying.';}
           else {
             const changes=quickEdits.filter(x=>x.sku&&available(bySku(x.sku)));
-            for(const edit of changes){const item=bySku(edit.sku);quantities[item.sku]=edit.skip?0:Math.ceil((edit.qty??item.step)/item.step)*item.step;}
+            let increased=false;
+            for(const edit of changes){
+              const item=bySku(edit.sku), next=edit.skip?0:Math.ceil((edit.qty??item.step)/item.step)*item.step;
+              if(next>(quantities[item.sku]||0)) increased=true;
+              quantities[item.sku]=next;
+            }
+            if(increased) added();
             quickEdits=quickEdits.filter(x=>!changes.includes(x));if(!quickEdits.length)query='';
             estimate=null;scheduleSave();feedback=changes.length+' matched '+(changes.length===1?'item updated.':'items updated.');
           }
@@ -407,7 +417,7 @@ header{border-bottom:3px solid #ee8656}
         if(action==='review'){
           busy=true;b.disabled=true;await saver;
           if(saveError){scheduleSave();await saver;if(saveError)throw Error(saveError);}
-          estimate=await api('/estimate','POST',{quantities});page='review';shell.scrollIntoView({block:'start'});
+          estimate=await api('/estimate','POST',{quantities});page='review';activity('review');shell.scrollIntoView({block:'start'});
         }
         if(action==='submit'){
           busy=true;b.disabled=true;await saver;
@@ -436,7 +446,6 @@ const catalog=[
   {"sku":"CS-LR-0005","retired":true,"name":"Go Mint mouthwash packets","category":"Locker room","pack":"0.37 oz, 20-count box","unit":"box","step":1,"cents":1150,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["mouthwash packets"]},
   {"sku":"CS-LR-0006","retired":true,"name":"Plackers dental flossers","category":"Locker room","pack":"1,000 per case","unit":"case","step":1,"cents":11921,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["floss","flossers"]},
   {"sku":"CS-LR-0007","name":"ReadyBrush Renew bamboo disposable toothbrush","category":"Locker room","pack":"144 count","unit":"box","step":1,"cents":12985,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["toothbrush"]},
-  {"sku":"CS-LR-0008","name":"Brut aerosol deodorant","category":"Locker room","pack":"6 oz","unit":"can","step":1,"cents":645,"availability":"in_stock","par":6,"usualRank":6,"oneTime":false,"synonyms":["deodorant","brut"]},
   {"sku":"CS-LR-0009","name":"Zest Aqua bar soap","category":"Locker room","pack":"3.2 oz, 48 per case","unit":"case","step":1,"cents":7195,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["bar soap","zest","soap"]},
   {"sku":"CS-LR-0010","name":"Jack Black Turbo body lotion","category":"Locker room","pack":"16 oz","unit":"bottle","step":1,"cents":2295,"availability":"out","par":0,"usualRank":null,"oneTime":false,"synonyms":["lotion"]},
   {"sku":"CS-LR-0011","name":"O'Keeffe's Working Hands cream","category":"Locker room","pack":"2.7 oz tube, 6 per case","unit":"case","step":1,"cents":null,"availability":"unknown","par":0,"usualRank":null,"oneTime":false,"synonyms":["hand cream","working hands"]},
@@ -496,5 +505,5 @@ async function demoApi(path,method,body){switch(path){case '/catalog':return cat
 const main=document.getElementById('main');
 function openBuilder(){window.showCatalog(main,demoApi,'manager','catalog')}
 function money(cents){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(cents/100)}
-window.addEventListener('cagestock:orders',()=>{main._csDestroy?.();main.innerHTML='<section class="receipt"><small>PRAIRIE UNION ATHLETIC CLUB</small><h1>Sample AP invoice</h1><p id="po"></p><ul></ul><dl></dl><p>Demo only. No payment is due.</p><button type="button">Back to order builder</button></section>';main.querySelector('#po').textContent='Team PO · '+(draft.po||'Unassigned');for(const p of catalog.filter(p=>draft.quantities[p.sku]>0)){const li=document.createElement('li');li.textContent=p.name+' × '+draft.quantities[p.sku]+' '+(draft.quantities[p.sku]===1?p.unit:({box:'boxes',each:'units'}[p.unit]||p.unit+'s'))+' · '+p.pack+' · '+money(p.cents*draft.quantities[p.sku]);main.querySelector('ul').append(li)}const t=estimate(draft.quantities).totals;for(const [name,value] of [['Sample delivery',t.delivery_cents],['Sample service fee',t.fee_cents],['Sample tax',t.tax_cents],['Sample invoice total',t.total_cents]]){let dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=name;dd.textContent=money(value);main.querySelector('dl').append(dt,dd)}main.querySelector('button').onclick=openBuilder;window.scrollTo(0,0)});openBuilder();
+window.addEventListener('cagestock:orders',()=>{main._csDestroy?.();main.innerHTML='<section class="receipt"><small>PRAIRIE UNION ATHLETIC CLUB</small><h1>Sample AP invoice</h1><p id="po"></p><ul></ul><dl></dl><p>Demo only. No payment is due.</p><button type="button">Back to order builder</button></section>';main.querySelector('#po').textContent='Team PO · '+(draft.po||'Unassigned');for(const p of catalog.filter(p=>draft.quantities[p.sku]>0)){const li=document.createElement('li');li.textContent=p.name+' × '+draft.quantities[p.sku]+' '+(draft.quantities[p.sku]===1?p.unit:({box:'boxes',each:'units'}[p.unit]||p.unit+'s'))+' · '+p.pack+' · '+money(p.cents*draft.quantities[p.sku]);main.querySelector('ul').append(li)}const t=estimate(draft.quantities).totals;for(const [name,value] of [['Sample delivery',t.delivery_cents],['Sample service fee',t.fee_cents],['Sample tax',t.tax_cents],['Sample invoice total',t.total_cents]]){let dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=name;dd.textContent=money(value);main.querySelector('dl').append(dt,dd)}main.querySelector('button').onclick=openBuilder;window.dispatchEvent(new CustomEvent('cagestock:activity',{detail:'invoice'}));window.scrollTo(0,0)});openBuilder();
 </script></body></html>
