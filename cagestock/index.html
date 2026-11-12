@@ -62,7 +62,30 @@
 
 .cs-suggest{display:block;width:100%;text-align:left;background:white;color:var(--cs-ink);border:0;border-top:1px solid var(--cs-line);padding:10px;cursor:pointer}.cs-suggest small{display:block;color:var(--cs-mute)}.cs-suggest:hover,.cs-suggest:focus-visible{background:#eef5f5}.cs-filters{grid-template-columns:1fr 1fr}.cs-filters label:first-child{grid-column:auto}
 
-.cs-cart-action,.cs-usual-editor form{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.cs-cart-action{margin:16px 0}.cs-usual-editor{padding-top:12px;border-top:1px solid var(--cs-line)}.cs-usual-editor summary{cursor:pointer}.cs-usual-editor .cs-step button{min-height:44px}</style></head><body><header><strong>CAGE<span>STOCK</span></strong><small>Team supply demo</small></header><div class="sub">Fictional team · Sample prices · Nothing is ordered or charged</div><main id="main"></main><script>(() => {
+.cs-cart-action,.cs-usual-editor form{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.cs-cart-action{margin:16px 0}.cs-usual-editor{padding-top:12px;border-top:1px solid var(--cs-line)}.cs-usual-editor summary{cursor:pointer}.cs-usual-editor .cs-step button{min-height:44px}
+body{background:#f2f4f5}main{padding-top:22px}
+header{border-bottom:3px solid #ee8656}
+.sub{font-size:12px;padding:6px 12px}
+.cs-heading{align-items:center;margin-bottom:16px}.cs-team{display:flex;align-items:center;gap:12px}
+.cs-monogram{display:grid;place-items:center;width:44px;height:48px;background:#16384c;color:#fff;font:italic 900 21px Arial;letter-spacing:-2px;clip-path:polygon(0 0,100% 0,100% 75%,50% 100%,0 75%);padding-bottom:5px;border-top:4px solid #f78a5d}
+.cs-heading h1{font:800 clamp(27px,3.4vw,44px)/1.04 Arial,sans-serif;letter-spacing:-.045em}.cs-heading .cs-eyebrow{margin-bottom:4px;font-size:10px}
+.cs-quick{padding:10px 12px;margin-bottom:8px}.cs-quick label{margin-bottom:5px}.cs-filters{margin:8px 0 16px}
+#csResults{border:0;background:none;overflow:visible}.cs-shelf{margin:0 0 25px}
+.cs-shelf h2{display:flex;align-items:center;gap:9px;font:760 21px/1.2 Arial,sans-serif;letter-spacing:-.025em;margin:0 0 10px}.cs-shelf h2:before{content:"";height:17px;width:4px;background:#d86537}
+.cs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.cs-card{display:flex;flex-direction:column;min-width:0;border:1px solid #d6dfe1;border-radius:10px;background:white;padding:11px}
+.cs-store .cs-product{padding:0;border:0;background:white;text-align:left;display:flex;flex-direction:column;align-items:stretch;gap:8px;font-weight:750;font-size:15px;line-height:1.25}
+.cs-photo{width:100%;height:125px;object-fit:contain;display:block;background:#fff}
+.cs-card p{font-size:12px;line-height:1.4;color:#4e6068;margin:4px 0}
+.cs-card .cs-cost{text-align:left;margin-top:auto;padding-top:8px}
+.cs-cost small{display:inline;margin-left:4px}.cs-history{font-size:11px;font-weight:650;color:#306348}
+.cs-card .cs-actions{margin-top:8px}.cs-store .cs-add{width:100%;border:1px solid #b4c4c9;background:#f1f5f5;color:#16394b;font-weight:750;border-radius:6px}
+.cs-detail .cs-photo{width:120px;height:120px}
+.cs-phone-cart{display:none}
+@media(min-width:1240px){.cs-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:950px){.cs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:730px){main{padding:13px 12px 80px}.cs-grid{gap:8px}.cs-photo{height:100px}.cs-card{padding:9px}.cs-store .cs-product{font-size:14px}.cs-save{display:none}.cs-filters{margin-bottom:13px}.cs-shelf h2{font-size:19px}.cs-phone-cart{position:fixed;z-index:4;bottom:max(9px,env(safe-area-inset-bottom));left:12px;right:12px;display:flex;align-items:center;justify-content:space-between;border:0;border-radius:8px;background:#122a3e;color:white!important;padding:10px 15px;font-weight:700!important;box-shadow:0 3px 14px #17304742}.cs-quick-line input{min-width:90px}.cs-quick-line{flex-wrap:nowrap}.cs-quick-line button{padding:6px 9px;font-size:13px}}
+.cs-filter-panel{margin:0 0 12px}.cs-filter-panel summary{width:max-content;cursor:pointer;line-height:44px;font-size:13px;font-weight:700;color:#345367}.cs-filter-panel .cs-filters{margin:0 0 8px}.cs-quick{margin-bottom:0}</style></head><body><header><strong>CAGE<span>STOCK</span></strong><small>Team supply demo</small></header><div class="sub">Demo illustrations &amp; prices · No orders or charges</div><main id="main"></main><script>(() => {
   'use strict';
   const formatMoney = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
   const money = cents => formatMoney.format(cents / 100);
@@ -88,6 +111,8 @@
     (icons[categories.indexOf(p.category)] || icons[2]) + '</svg></span>';
   function productImage(p) {
     const image=p.image;
+    if(!image && !p.retired && /^CS-(?:LR|AT|EQ)-\d{4}$/.test(p.sku))
+      return '<img class="cs-photo" loading="lazy" width="280" height="280" src="./products/'+p.sku+'.jpg" alt="">';
     if(!image?.approvedBy || !image?.licenseNote ||
        !['manufacturer','licensed_supplier','own_photo'].includes(image.sourceType) ||
        !/^\/assets\/products\/[a-z0-9_./-]+\.(?:webp|jpe?g)$/i.test(image.url) || image.url.includes('..'))return icon(p);
@@ -127,6 +152,7 @@
   window.showCatalog = async function showCatalog(root, api, role = 'manager', section = 'usuals') {
     if (root._csDestroy) root._csDestroy();
     let active = true, busy = false, saver = Promise.resolve(), pendingSaves = 0, saveError = '', draftMeta = {}, estimate, page = section === 'catalog' ? 'catalog' : 'usuals';
+    let filtersOpen = false;
     let query = '', category = '', filter = '', details = '', quickText = '', quickEdits = [], feedback = '', po = '', center = '', needBy = '';
     let quantities, products, submittedId = '';
     const abort = new AbortController();
@@ -205,14 +231,18 @@
         '<output aria-label="Quantity">' + qty + '</output>' +
         button('plus','+',p.sku,'','aria-label="Increase '+escape(p.name)+'"')+'</div>';
     }
-    function row(p,usual = false) {
-      return '<article class="cs-item">'+productImage(p)+'<div class="cs-info">'+button('detail',escape(p.name),p.sku,'cs-name') +
-        '<p>'+escape(p.pack)+'</p><div class="cs-item-meta">'+badge(p)+(p.purchaseCount ? '<span class="cs-history">Previously purchased</span>' : '')+(usual ? '<span>Usual '+p.par+' '+escape(unit(p,p.par))+'</span>' : '')+'</div></div>'+
-        '<div class="cs-cost">'+(p.cents === null ? '—' : money(p.cents))+'<small>per '+escape(p.unit)+'</small></div>'+
-        '<div class="cs-actions">'+controls(p)+(usual && editable && count(p.sku)>0 ? button('skip','Skip this time',p.sku,'cs-link') : '')+'</div></article>';
+    function row(p) {
+      const product = button('detail', productImage(p)+'<span>'+escape(p.name)+'</span>', p.sku, 'cs-product');
+      const add = editable && available(p) && !count(p.sku)
+        ? button('plus','+ Add',p.sku,'cs-add','aria-label="Add '+escape(p.name)+'"') : controls(p);
+      return '<article class="cs-card">'+product+'<p>'+escape(p.pack)+'</p>'+
+        (p.purchaseCount ? '<span class="cs-history">Previously purchased</span>' : '')+
+        (p.availability==='limited' ? badge(p) : '')+
+        '<div class="cs-cost">'+(p.cents===null?'Request price':money(p.cents)+'<small>/ '+escape(p.unit)+'</small>')+'</div>'+
+        '<div class="cs-actions">'+add+'</div></article>';
     }
     function quickPanel() {
-      return '<form class="cs-quick" id="csQuick"><label for="csSearch">Find supplies</label><div class="cs-quick-line"><input id="csSearch" autocomplete="off" maxlength="600" required placeholder="Search products or type a refill list" value="'+escape(query)+'"><button class="cs-secondary" type="submit">Check items</button></div><div id="csSuggestions"></div></form>'+
+      return '<form class="cs-quick" id="csQuick"><label for="csSearch">Find supplies</label><div class="cs-quick-line"><input id="csSearch" autocomplete="off" maxlength="600" required placeholder="Search or type a refill list" value="'+escape(query)+'"><button class="cs-secondary" type="submit">Check list</button></div><div id="csSuggestions"></div></form>'+
         (!quickEdits.length ? '' : '<div class="cs-match"><h3>Check your changes</h3>'+quickEdits.map((e,i) => {
           const p=bySku(e.sku);
           if (!e.options.length) return '<p>Couldn’t match “'+escape(e.term)+'”. '+button('search-miss','Search catalog',String(i),'cs-link')+'</p>';
@@ -226,7 +256,7 @@
     function suggestions() {
       const term=normal(query).trim();
       if(!term)return '';
-      const matches=products.filter(p=>productMatches(p,term));
+      const matches=products.filter(p=>!p.retired && productMatches(p,term));
       matches.sort((a,b)=>(b.lastPurchasedAt||'').localeCompare(a.lastPurchasedAt||'') ||
         (b.purchaseCount||0)-(a.purchaseCount||0) || a.name.localeCompare(b.name));
       return matches.slice(0,8).map(p=>button('suggest',escape(p.name)+'<small>'+escape(p.pack)+
@@ -234,38 +264,42 @@
     }
     function listing() {
       const usual=page==='usuals';
-      let result=products.filter(p=>(!usual||query.trim()||p.par>0)&&(!category||p.category===category));
+      let result=products.filter(p=>!p.retired && (!usual||query.trim()||p.par>0)&&(!category||p.category===category));
       if (filter==='stock') result=result.filter(available);
       if (filter==='usual') result=result.filter(p=>p.par>0);
       if (filter==='quote') result=result.filter(p=>p.cents===null);
       if (query.trim()) result=result.filter(p=>productMatches(p,query));
       result.sort((a,b)=>(b.purchaseCount||0)-(a.purchaseCount||0) || (usual ? (a.usualRank||100)-(b.usualRank||100) : 0));
-      return '<div class="cs-list-head"><span>' + (usual ? 'USUAL SUPPLIES' : 'PRODUCTS') + '</span><span>' + result.length + ' items</span></div>' +
-        (result.length ? result.map(p=>row(p,usual)).join('') : '<div class="cs-empty">No matching supplies.</div>');
+      const priority=['CS-LR-0001','CS-LR-0017','CS-LR-0018','CS-LR-0004'];
+      const starters=priority.map(bySku).filter(p=>result.includes(p));
+      const shelf=(title,items)=>items.length ? '<section class="cs-shelf"><h2>'+escape(title)+'</h2><div class="cs-grid">'+items.map(row).join('')+'</div></section>' : '';
+      if(!result.length)return '<div class="cs-empty">No matching supplies.</div>';
+      if(query.trim()||category||filter||usual)return shelf(query.trim()?'Search results':category||'Matching supplies',result);
+      return shelf('Restock essentials',starters)+categories.map(c=>shelf(c,result.filter(p=>p.category===c&&!priority.includes(p.sku)))).join('');
     }
     function render(focusSku,focusAction) {
       if (!live()) return;
       const usual=page==='usuals', review=page==='review';
-      const headings={usuals:'Usual refill',catalog:'Supply catalog',review:'Review your order'};
+      const headings={usuals:'Usual refill',catalog:'Team order builder',review:'Review your order'};
       const p=bySku(details);
       if(submittedId) {
         shell.innerHTML='<div class="cs-review-head"><span class="cs-eyebrow">Prairie Union Athletic Club</span><h2>Order '+escape(submittedId)+'</h2><p role="status">'+escape(feedback)+'</p>'+button('orders','Open orders','','cs-primary')+'</div>';
         return;
       }
-      shell.innerHTML='<div class="cs-heading"><div><span class="cs-eyebrow">Prairie Union Athletic Club</span><h1>'+headings[page]+'</h1></div>'+
+      shell.innerHTML='<div class="cs-heading"><div class="cs-team"><span class="cs-monogram" aria-hidden="true">PU</span><div><span class="cs-eyebrow">Prairie Union Athletic Club</span><h1>'+headings[page]+'</h1></div></div>'+
         '<span class="cs-save" aria-live="polite">'+escape(saveError || 'Sample draft')+'</span></div>'+
         '<div class="cs-status" role="status">'+escape(feedback)+'</div>'+
         (p ? '<section class="cs-detail">'+button('close-detail','← Back to supplies','','cs-link')+'<div class="cs-detail-head">'+productImage(p)+'<div><span class="cs-eyebrow">'+escape(p.category)+'</span><h2>'+escape(p.name)+'</h2></div></div><p>'+escape(p.pack)+' · '+escape(p.sku)+'</p>'+badge(p)+'<dl><dt>Order increment</dt><dd>'+p.step+' '+escape(unit(p,p.step))+'</dd><dt>Estimated unit price</dt><dd>'+(p.cents===null?'Price on request':money(p.cents))+'</dd></dl>'+
           (editable && available(p) ? '<div class="cs-cart-action">'+button('add-cart','Add to cart',p.sku,'cs-primary',count(p.sku)+p.step>9999?'disabled':'')+'<span>'+p.step+' '+escape(unit(p,p.step))+' · '+money(p.step*p.cents)+'</span></div>' : controls(p))+
           (editable && !p.oneTime && available(p)?'<details class="cs-usual-editor"><summary>Usual quantity · '+p.par+' '+escape(unit(p,p.par))+'</summary><form id="csPar"><div class="cs-step">'+button('usual-less','−',p.sku,'','aria-label="Decrease usual quantity" '+(p.par===0?'disabled':''))+'<output id="csParQty" aria-label="Usual quantity">'+p.par+'</output>'+button('usual-more','+',p.sku,'','aria-label="Increase usual quantity"')+'</div><button class="cs-secondary">Save usual quantity</button></form></details>':'')+'</section>':
         review ? button('back','← Edit refill','','cs-link')+'<div class="cs-layout"><section class="cs-list"><div class="cs-review-head"><h2>Delivery &amp; PO</h2><p>Main receiving dock · Prairie Union Athletic Club</p><div class="cs-review-fields">'+field('csPo','Sample PO number',po)+field('csCenter','Sample cost center (optional)',center)+field('csNeed','Need by (optional)',needBy,'date')+'</div></div>'+
-          lines().map(p=>'<div class="cs-review-row"><div><strong>'+escape(p.name)+'</strong><small>'+count(p.sku)+' '+escape(unit(p,count(p.sku)))+' · '+escape(p.pack)+'</small></div><strong>'+money(p.cents*count(p.sku))+'</strong></div>').join('')+
+          lines().map(p=>'<div class="cs-review-row"><div><strong>'+escape(p.name)+'</strong><small>'+count(p.sku)+' '+escape(unit(p,count(p.sku)))+' · '+escape(p.pack)+'</small>'+(p.retired?'<small>Earlier pack in your draft</small>'+button('remove-earlier','Remove',p.sku,'cs-link'):'')+'</div><strong>'+money(p.cents*count(p.sku))+'</strong></div>').join('')+
           '<div class="cs-deliver"><h3>Delivery plan</h3>'+deliveryPlan()+'</div></section>'+summary(true)+'</div>':
         '<div class="cs-layout"><div>'+quickPanel()+
-          '<div class="cs-filters">'+
+          '<details class="cs-filter-panel"'+(filtersOpen?' open':'')+'><summary>Filters'+(category||filter?' · active':'')+'</summary><div class="cs-filters">'+
           '<label>Area<select id="csCategory"><option value="">All areas</option>'+categories.map(c=>'<option '+(c===category?'selected':'')+'>'+escape(c)+'</option>').join('')+'</select></label>'+
-          '<label>Show<select id="csFilter">'+[['','All supplies'],['stock','In stock'],['usual','Usual items'],['quote','Price on request']].map(([v,t])=>'<option value="'+v+'" '+(filter===v?'selected':'')+'>'+t+'</option>').join('')+'</select></label></div>'+
-          '<div class="cs-list" id="csResults">'+listing()+'</div></div>'+summary()+'</div>');
+          '<label>Show<select id="csFilter">'+[['','All supplies'],['stock','In stock'],['usual','Usual items'],['quote','Price on request']].map(([v,t])=>'<option value="'+v+'" '+(filter===v?'selected':'')+'>'+t+'</option>').join('')+'</select></label></div></details>'+
+          '<div class="cs-list" id="csResults">'+listing()+'</div></div>'+summary()+'</div>'+(lines().length ? button('review','Review refill · '+lines().length+' '+(lines().length===1?'item':'items')+'<span>'+money(subtotal())+' →</span>','','cs-phone-cart') : ''));
       if(focusSku && focusAction) shell.querySelector('[data-action="'+focusAction+'"][data-sku="'+focusSku+'"]')?.focus({preventScroll:true});
     }
     function deliveryPlan() {
@@ -280,6 +314,7 @@
           (needBy && new Date(needBy+'T23:59:59')<date?'<br><b class="cs-alert">May arrive after your need-by date.</b>':'')+'</p>';
       }).join('');
     }
+    shell.addEventListener('toggle',e=>{if(e.target.classList?.contains('cs-filter-panel'))filtersOpen=e.target.open;},{capture:true,signal});
     shell.addEventListener('input',e=>{
       if(e.target.id==='csSearch'){query=e.target.value;quickEdits=[];shell.querySelector('.cs-match')?.remove();shell.querySelector('#csSuggestions').innerHTML=suggestions();shell.querySelector('#csResults').innerHTML=listing();}
 
@@ -311,7 +346,7 @@
       e.preventDefault();
       if(!editable)return;
       if(e.target.id==='csQuick'){
-        quickEdits=parseQuick(query,products);feedback='';render();
+        quickEdits=parseQuick(query,products.filter(p=>!p.retired));feedback='';render();
       } else if(e.target.id==='csPar'){
         const p=bySku(details), qty=Number(shell.querySelector('#csParQty').value);
         if(!Number.isInteger(qty)||qty<0||qty>9999||qty%p.step){feedback='Use a multiple of '+p.step+'.';render();return;}
@@ -325,6 +360,11 @@
       if(!editable && ['plus','minus','skip','price','submit','apply'].includes(action))return;
       feedback='';
       try {
+        if(action==='remove-earlier' && editable && p?.retired){
+          setQty(p,0); await saver;
+          if(lines().length)estimate=await api('/estimate','POST',{quantities}); else page='catalog';
+          render();return;
+        }
         if(action==='usual-less'||action==='usual-more'){
           const output=shell.querySelector('#csParQty');
           const qty=Math.max(0,Math.min(Math.floor(10000/p.step)*p.step,Number(output.value)+(action==='usual-more'?p.step:-p.step)));
@@ -346,7 +386,7 @@
         }
         if(action==='suggest'||action==='detail'){details=p.sku;render();shell.scrollIntoView({block:'start'});return;}
         if(action==='close-detail')details='';
-        if(action==='usuals'||action==='catalog'||action==='back'){page=action==='back'?'usuals':action;details='';query='';category='';filter='';}
+        if(action==='usuals'||action==='catalog'||action==='back'){page=action==='back'?'catalog':action;details='';query='';category='';filter='';}
         if(action==='price'){b.disabled=true;await api('/price-request','POST',{sku:p.sku});feedback='Sample price inquiry recorded on this device.';}
         if(action==='resolve'){quickEdits[Number(b.dataset.index)].sku=p.sku;}
         if(action==='search-miss'){page='catalog';query=quickEdits[Number(b.dataset.sku)].term;category='';filter='';}
@@ -388,17 +428,17 @@
 const catalog=[
   {"sku":"CS-LR-0001","name":"Dove Sensitive Skin body wash with pump","category":"Locker room","pack":"30.6 fl oz, twin-pack","unit":"bottle","step":2,"cents":949,"availability":"in_stock","par":6,"usualRank":1,"oneTime":false,"synonyms":["dove","body wash","soap"]},
   {"sku":"CS-LR-0002","name":"Extra Spearmint gum","category":"Locker room","pack":"15 sticks per pack, 10-pack","unit":"10-pack","step":1,"cents":1228,"availability":"in_stock","par":1,"usualRank":4,"oneTime":false,"synonyms":["gum","extra"]},
-  {"sku":"CS-LR-0003","name":"C&C individually wrapped twin-blade razors","category":"Locker room","pack":"500 count","unit":"case","step":1,"cents":9119,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["razors"]},
+  {"sku":"CS-LR-0003","retired":true,"name":"C&C individually wrapped twin-blade razors","category":"Locker room","pack":"500 count","unit":"case","step":1,"cents":9119,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["razors"]},
   {"sku":"CS-LR-0004","name":"Listerine Coolmint mouthwash","category":"Locker room","pack":"1.5 L bottle","unit":"bottle","step":1,"cents":1345,"availability":"in_stock","par":2,"usualRank":7,"oneTime":false,"synonyms":["mouthwash","listerine"]},
-  {"sku":"CS-LR-0005","name":"Go Mint mouthwash packets","category":"Locker room","pack":"0.37 oz, 20-count box","unit":"box","step":1,"cents":1150,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["mouthwash packets"]},
-  {"sku":"CS-LR-0006","name":"Plackers dental flossers","category":"Locker room","pack":"1,000 per case","unit":"case","step":1,"cents":11921,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["floss","flossers"]},
+  {"sku":"CS-LR-0005","retired":true,"name":"Go Mint mouthwash packets","category":"Locker room","pack":"0.37 oz, 20-count box","unit":"box","step":1,"cents":1150,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["mouthwash packets"]},
+  {"sku":"CS-LR-0006","retired":true,"name":"Plackers dental flossers","category":"Locker room","pack":"1,000 per case","unit":"case","step":1,"cents":11921,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["floss","flossers"]},
   {"sku":"CS-LR-0007","name":"ReadyBrush Renew bamboo disposable toothbrush","category":"Locker room","pack":"144 count","unit":"box","step":1,"cents":12985,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["toothbrush"]},
   {"sku":"CS-LR-0008","name":"Brut aerosol deodorant","category":"Locker room","pack":"6 oz","unit":"can","step":1,"cents":645,"availability":"in_stock","par":6,"usualRank":6,"oneTime":false,"synonyms":["deodorant","brut"]},
   {"sku":"CS-LR-0009","name":"Zest Aqua bar soap","category":"Locker room","pack":"3.2 oz, 48 per case","unit":"case","step":1,"cents":7195,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["bar soap","zest","soap"]},
   {"sku":"CS-LR-0010","name":"Jack Black Turbo body lotion","category":"Locker room","pack":"16 oz","unit":"bottle","step":1,"cents":2295,"availability":"out","par":0,"usualRank":null,"oneTime":false,"synonyms":["lotion"]},
   {"sku":"CS-LR-0011","name":"O'Keeffe's Working Hands cream","category":"Locker room","pack":"2.7 oz tube, 6 per case","unit":"case","step":1,"cents":null,"availability":"unknown","par":0,"usualRank":null,"oneTime":false,"synonyms":["hand cream","working hands"]},
   {"sku":"CS-AT-0001","name":"Member's Mark nitrile exam gloves, large","category":"Athletic training","pack":"200 count box","unit":"box","step":1,"cents":1098,"availability":"in_stock","par":1,"usualRank":2,"oneTime":false,"synonyms":["gloves","nitrile"]},
-  {"sku":"CS-AT-0002","name":"Life Guard black nitrile exam gloves, large, 5.5 mil","category":"Athletic training","pack":"2 × 100","unit":"box","step":2,"cents":1225,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["gloves","black gloves"]},
+  {"sku":"CS-AT-0002","retired":true,"name":"Life Guard black nitrile exam gloves, large, 5.5 mil","category":"Athletic training","pack":"2 × 100","unit":"box","step":2,"cents":1225,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["gloves","black gloves"]},
   {"sku":"CS-AT-0003","name":"Band-Aid sheer strips, assorted","category":"Athletic training","pack":"80 count","unit":"box","step":1,"cents":698,"availability":"in_stock","par":2,"usualRank":8,"oneTime":false,"synonyms":["bandaids","band-aid"]},
   {"sku":"CS-AT-0004","name":"Mueller MTape white athletic tape","category":"Athletic training","pack":"1.5 in × 15 yd, 32 rolls","unit":"case","step":1,"cents":7899,"availability":"in_stock","par":1,"usualRank":9,"oneTime":false,"synonyms":["athletic tape","tape"]},
   {"sku":"CS-AT-0005","name":"Mueller M Wrap prewrap","category":"Athletic training","pack":"case of 48","unit":"case","step":1,"cents":6595,"availability":"in_stock","par":1,"usualRank":10,"oneTime":false,"synonyms":["prewrap","wrap"]},
@@ -409,10 +449,10 @@ const catalog=[
   {"sku":"CS-AT-0010","name":"CanDo low-powder exercise band, yellow","category":"Athletic training","pack":"6 yd roll","unit":"roll","step":1,"cents":1500,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["band","theraband"]},
   {"sku":"CS-AT-0011","name":"CanDo Plus foam roller","category":"Athletic training","pack":"6 × 36 in","unit":"each","step":1,"cents":3250,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["foam roller"]},
   {"sku":"CS-AT-0012","name":"BIOTONE Advanced Therapy massage creme","category":"Athletic training","pack":"16 oz","unit":"jar","step":1,"cents":3125,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["massage cream"]},
-  {"sku":"CS-AT-0013","name":"BIOTONE Advanced Therapy massage creme","category":"Athletic training","pack":"1 gallon","unit":"gallon","step":1,"cents":8795,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["massage cream gallon"]},
+  {"sku":"CS-AT-0013","retired":true,"name":"BIOTONE Advanced Therapy massage creme","category":"Athletic training","pack":"1 gallon","unit":"gallon","step":1,"cents":8795,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["massage cream gallon"]},
   {"sku":"CS-EQ-0001","name":"Scotch Heavy Duty shipping tape with dispenser","category":"Equipment & travel","pack":"1.88 in × 27.7 yd, 6-pack","unit":"6-pack","step":1,"cents":1496,"availability":"in_stock","par":1,"usualRank":3,"oneTime":false,"synonyms":["packing tape","shipping tape","tape"]},
-  {"sku":"CS-EQ-0002","name":"Sharpie chisel tip marker, black","category":"Equipment & travel","pack":"single","unit":"each","step":1,"cents":280,"availability":"in_stock","par":6,"usualRank":11,"oneTime":false,"synonyms":["sharpie","marker"]},
-  {"sku":"CS-EQ-0003","name":"Clear luggage tag loop straps","category":"Equipment & travel","pack":"6 in, 100 per pack","unit":"pack","step":1,"cents":414,"availability":"in_stock","par":1,"usualRank":12,"oneTime":false,"synonyms":["luggage loops","tag loops"]},
+  {"sku":"CS-EQ-0002","retired":true,"name":"Sharpie chisel tip marker, black","category":"Equipment & travel","pack":"single","unit":"each","step":1,"cents":280,"availability":"in_stock","par":6,"usualRank":11,"oneTime":false,"synonyms":["sharpie","marker"]},
+  {"sku":"CS-EQ-0003","retired":true,"name":"Clear luggage tag loop straps","category":"Equipment & travel","pack":"6 in, 100 per pack","unit":"pack","step":1,"cents":414,"availability":"in_stock","par":1,"usualRank":12,"oneTime":false,"synonyms":["luggage loops","tag loops"]},
   {"sku":"CS-EQ-0004","name":"Mesh laundry / travel bag with drawcord","category":"Equipment & travel","pack":"24 × 36 in, white","unit":"each","step":1,"cents":1588,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["mesh bag","laundry bag","bags"]},
   {"sku":"CS-EQ-0005","name":"S5 safety box cutter, right-handed","category":"Equipment & travel","pack":"12 per case","unit":"case","step":1,"cents":null,"availability":"unknown","par":0,"usualRank":null,"oneTime":false,"synonyms":["box cutter"]},
   {"sku":"CS-EQ-0006","name":"Titanium bonded office scissors","category":"Equipment & travel","pack":"8 in straight","unit":"each","step":1,"cents":1345,"availability":"out","par":0,"usualRank":null,"oneTime":false,"synonyms":["scissors"]},
