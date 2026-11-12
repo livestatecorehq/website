@@ -228,17 +228,18 @@ header{border-bottom:3px solid #ee8656}
       if (p.cents === null) return button('price','Request price',p.sku,'cs-secondary');
       const qty = count(p.sku);
       return '<div class="cs-step">' + button('minus','−',p.sku,'','aria-label="Decrease '+escape(p.name)+'" '+(!qty ? 'disabled' : '')) +
-        '<output aria-label="Quantity">' + qty + '</output>' +
+        '<output aria-label="Quantity">' + qty + (p.step>1?' <small>'+escape(unit(p,qty))+'</small>':'') + '</output>' +
         button('plus','+',p.sku,'','aria-label="Increase '+escape(p.name)+'"')+'</div>';
     }
     function row(p) {
       const product = button('detail', productImage(p)+'<span>'+escape(p.name)+'</span>', p.sku, 'cs-product');
+      const incrementLabel = p.step>1 ? p.step+' '+unit(p,p.step) : '';
       const add = editable && available(p) && !count(p.sku)
-        ? button('plus','+ Add',p.sku,'cs-add','aria-label="Add '+escape(p.name)+'"') : controls(p);
+        ? button('plus',incrementLabel?'+ Add '+escape(incrementLabel):'+ Add',p.sku,'cs-add','aria-label="Add '+escape(incrementLabel+' '+p.name).trim()+'"') : controls(p);
       return '<article class="cs-card">'+product+'<p>'+escape(p.pack)+'</p>'+
         (p.purchaseCount ? '<span class="cs-history">Previously purchased</span>' : '')+
         (p.availability==='limited' ? badge(p) : '')+
-        '<div class="cs-cost">'+(p.cents===null?'Request price':money(p.cents)+'<small>/ '+escape(p.unit)+'</small>')+'</div>'+
+        '<div class="cs-cost">'+(p.cents===null?'Request price':money(p.cents*p.step)+'<small>/ '+(p.step>1?escape(incrementLabel):escape(p.unit))+'</small>')+'</div>'+
         '<div class="cs-actions">'+add+'</div></article>';
     }
     function quickPanel() {
