@@ -1,0 +1,396 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#122a3e"><meta name="description" content="Try the CageStock team order builder with sample locker-room, training and travel supplies."><title>CageStock | Team order demo</title><link rel="icon" href="data:,"><style>*{box-sizing:border-box}body{margin:0;background:#f6f6f2;color:#142d40;font:16px system-ui,sans-serif}button,input,select{font:inherit}header{background:#122a3e;color:white;padding:16px max(4vw,calc((100vw - 1240px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px}header strong{font:900 26px/1 Arial,sans-serif;letter-spacing:-1.2px}header strong span{color:#ff955d}header small{font-weight:650}.sub{background:white;padding:10px 4vw;border-bottom:1px solid #d6dcda;font-size:13px;text-align:center}main{padding:14px 3vw 40px}button{cursor:pointer}.receipt{background:#fff;max-width:640px;margin:30px auto;padding:24px;border:1px solid #d5dadd;border-radius:8px}.receipt li{margin:.8rem 0}.receipt button{min-height:44px}.receipt dt,.receipt dd{margin:6px 0}.receipt dd{font-weight:bold}.cs-store {
+  --cs-line:#dcded9;
+  --cs-navy:#122a3e;
+  --cs-ink:#1c3040;
+  --cs-mute:#50606a;
+  --cs-accent:#da5429;
+  color:var(--cs-ink);font-family:var(--body,"DM Sans",Arial,sans-serif);
+  width:min(100%,1240px);margin-inline:auto;scroll-margin-top:16px;
+}
+.cs-store *{box-sizing:border-box}
+.cs-store h1,.cs-store h2,.cs-store h3,.cs-store p{margin:0}
+.cs-store input,.cs-store button,.cs-store select{font:inherit;color:inherit}
+.cs-store button:focus-visible,.cs-store input:focus-visible,.cs-store select:focus-visible{outline:3px solid #c95530;outline-offset:2px}
+.cs-store button{min-height:44px;cursor:pointer;touch-action:manipulation}
+.cs-store button:disabled{cursor:default;opacity:.55}
+.cs-heading{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:0 0 23px}
+.cs-heading h1{font-family:var(--athletic,"Barlow Condensed",Impact,sans-serif);font-size:clamp(42px,6vw,72px);line-height:.98;letter-spacing:-.025em;color:var(--cs-navy)}
+.cs-eyebrow,.cs-list-head,.cs-quick label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
+.cs-eyebrow{display:block;color:var(--cs-mute);margin-bottom:9px}
+.cs-save,.cs-muted{font-size:12px;color:var(--cs-mute)}.cs-save{white-space:nowrap}
+.cs-status:empty{display:none}.cs-status:not(:empty){margin:12px 0;background:#eef2ec;border-left:3px solid #416749;padding:12px 14px;border-radius:4px}
+.cs-nav{display:flex;gap:3px;border-bottom:1px solid #c6cbc7;margin:0 0 22px}
+.cs-tab{background:transparent;border:0;border-bottom:3px solid transparent;padding:0 18px;font-weight:750!important}
+.cs-tab.current{border-color:var(--cs-accent);color:var(--cs-navy)}
+.cs-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,285px);align-items:start;gap:clamp(15px,2vw,30px)}
+.cs-store .cs-summary{background:var(--cs-navy);color:#fff;padding:24px;border-radius:13px;position:sticky;top:18px;box-shadow:0 8px 30px #132f3e13}
+.cs-summary h3,.cs-deliver h3,.cs-detail h2,.cs-review-head h2,.cs-match h3{font-family:var(--athletic,"Barlow Condensed",Impact,sans-serif);font-size:29px;line-height:1.05}
+.cs-summary-row{padding:12px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #ffffff35;font-size:14px}
+.cs-summary p{margin:13px 0;color:#e2e9eb;font-size:13px;line-height:1.5}
+.cs-summary small{display:block;margin-top:16px;color:#cfdbde;font-size:11px}
+.cs-primary,.cs-secondary{border-radius:7px;padding:9px 15px;font-weight:750!important;border:1px solid transparent}
+.cs-store .cs-primary{background:#ff875b;color:#182a38}
+.cs-summary .cs-primary{width:100%;display:flex;justify-content:space-between;align-items:center}
+.cs-store .cs-secondary{border-color:#a9b3b4;background:#fff}
+.cs-store .cs-link{font-size:12px;font-weight:700;color:#315263;text-decoration:underline;text-underline-offset:3px;border:0;background:none;padding:5px 4px}
+.cs-quick,.cs-match,.cs-detail{padding:18px;background:#fff;border:1px solid var(--cs-line);border-radius:10px;margin-bottom:15px}
+.cs-quick label{display:block;margin-bottom:8px;color:var(--cs-mute)}
+.cs-quick-line{display:flex;gap:8px}.cs-quick-line input{flex:1;min-width:0}
+.cs-store input,.cs-store select{background:#fff;border:1px solid #abb3af;border-radius:6px;min-height:44px;padding:8px 10px;width:100%}
+.cs-filters{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:9px;margin:15px 0}
+.cs-filters label,.cs-field{display:grid;gap:4px;font-size:12px;font-weight:700;color:var(--cs-mute)}
+.cs-filters input,.cs-filters select,.cs-field input{font-size:14px;font-weight:400;color:var(--cs-ink)}
+.cs-list{background:#fff;border:1px solid var(--cs-line);border-radius:10px;overflow:hidden}
+.cs-list-head,.cs-review-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.cs-list-head{padding:11px 15px;background:#e9ede7;color:#43544e}.cs-list-head span:last-child{text-transform:none;letter-spacing:0}
+.cs-item{display:grid;align-items:center;grid-template-columns:48px minmax(0,1fr) minmax(58px,auto) 116px;gap:13px;padding:13px 15px;border-top:1px solid var(--cs-line)}
+.cs-icon{width:44px;height:50px;display:grid;place-items:center;color:#46616a;background:#eaf0ec;border-radius:6px;font:600 23px Arial;user-select:none}
+.cs-icon-1{color:#44605b;background:#eaf1e8}.cs-icon-2{color:#665e48;background:#f2eee2}.cs-icon-3{color:#4e5f75;background:#eaf0f2}
+.cs-info .cs-name{display:block;min-height:44px;text-align:left;font-weight:760;font-size:15px;line-height:1.25;letter-spacing:-.02em;background:transparent;border:0;padding:2px 0}
+.cs-name:hover{text-decoration:underline}.cs-info p,.cs-item-meta,.cs-cost small,.cs-review-row small,.cs-deliver small{font-size:12px;color:var(--cs-mute);line-height:1.45}
+.cs-item-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:5px}
+.cs-availability{font-size:11px;font-weight:700;display:inline-block;line-height:1.5}
+.cs-stock{color:#306342}.cs-unknown{color:#85572b}
+.cs-actions{text-align:center}.cs-actions .cs-link{display:block;margin:auto}.cs-step{display:grid;grid-template-columns:40px minmax(23px,1fr) 40px;align-items:center;border:1px solid #bdc6c2;border-radius:7px;background:#fff;text-align:center}
+.cs-step button{background:transparent;border:0;font-size:21px;min-width:0}.cs-step output{font-variant-numeric:tabular-nums;font-size:14px;font-weight:700}
+.cs-cost{text-align:right;font-weight:700;font-size:14px}.cs-cost small,.cs-review-row small{display:block;font-weight:400}
+.cs-match{background:#f7f9f3}.cs-match p,.cs-match>div{padding:8px 0}.cs-choices,.cs-review-fields{display:flex;flex-wrap:wrap;gap:8px}.cs-review-fields>*{flex:1 1 130px}
+.cs-detail-head{display:flex;align-items:center;gap:15px;margin:10px 0}.cs-detail dl{display:grid;grid-template-columns:max-content auto;gap:6px 16px}.cs-detail dd{margin:0;font-weight:700}.cs-detail .cs-step{max-width:145px}.cs-detail form{margin-top:18px;display:flex;gap:12px;align-items:end}.cs-detail input{max-width:120px}
+.cs-review-head,.cs-deliver{padding:20px}.cs-review-head p{margin:6px 0 16px;color:var(--cs-mute)}.cs-review-row{border-top:1px solid var(--cs-line);padding:12px 20px}.cs-deliver p{margin:9px 0}.cs-alert{color:#983d25}.cs-empty{padding:28px}
+@media(max-width:900px){.cs-layout{grid-template-columns:minmax(0,1fr) 230px}.cs-item{grid-template-columns:minmax(0,1fr) 60px 108px}.cs-item>.cs-icon{display:none}}
+@media(max-width:730px){.cs-heading{align-items:start}.cs-heading h1{font-size:44px}.cs-layout{display:flex;flex-direction:column;gap:14px}.cs-layout>div,.cs-layout>section,.cs-summary{width:100%}.cs-store .cs-summary{position:static;padding:18px}.cs-filters{grid-template-columns:1fr 1fr}.cs-filters label:first-child{grid-column:1/-1}.cs-item{grid-template-columns:minmax(0,1fr) 112px;gap:7px 12px}.cs-item .cs-cost{grid-column:1;text-align:left}.cs-item .cs-cost small{display:inline;margin-left:4px}.cs-item .cs-actions{grid-column:2;grid-row:1/3}.cs-step{grid-template-columns:44px minmax(20px,1fr) 44px}.cs-quick{padding:12px}.cs-quick-line{flex-wrap:wrap}.cs-quick-line input{min-width:140px}.cs-heading{margin-bottom:12px}.cs-review-fields{display:grid;grid-template-columns:1fr}.cs-save{white-space:normal;text-align:right;max-width:100px}}
+
+.cs-suggest{display:block;width:100%;text-align:left;background:white;color:var(--cs-ink);border:0;border-top:1px solid var(--cs-line);padding:10px;cursor:pointer}.cs-suggest small{display:block;color:var(--cs-mute)}.cs-suggest:hover,.cs-suggest:focus-visible{background:#eef5f5}.cs-filters{grid-template-columns:1fr 1fr}.cs-filters label:first-child{grid-column:auto}
+
+.cs-cart-action,.cs-usual-editor form{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.cs-cart-action{margin:16px 0}.cs-usual-editor{padding-top:12px;border-top:1px solid var(--cs-line)}.cs-usual-editor summary{cursor:pointer}.cs-usual-editor .cs-step button{min-height:44px}</style></head><body><header><strong>CAGE<span>STOCK</span></strong><small>Team supply demo</small></header><div class="sub">Fictional team · Sample prices · Nothing is ordered or charged</div><main id="main"></main><script>(() => {
+  'use strict';
+  const formatMoney = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+  const money = cents => formatMoney.format(cents / 100);
+  const escape = value => String(value ?? '').replace(/[&<>"']/g, char =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+  const normal = text => String(text).toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9 -]/g, ' ').replace(/\s+/g, ' ').trim();
+  const categories = ['Locker room', 'Athletic training', 'Equipment & travel'];
+  const icons = [
+    '<path d="M8 7V4h8v3M7 7h10v13H7zM10 11h4"/>',
+    '<path d="M8 5V3h8v2M4 6h16v14H4zM12 10v6m-3-3h6"/>',
+    '<path d="m3 8 9-5 9 5-9 5zM3 8v9l9 5 9-5V8m-9 5v9M7.5 5.5l9 5"/>',
+    '<path d="M7 20h10l-1-8-3-4V5H9v4l-3 4zM9 5V3h9l-2 2m-7 9h5"/>',
+    '<rect x="4" y="3" width="16" height="18" rx="1"/><circle cx="12" cy="14" r="4"/><path d="M7 6h2m2 0h2"/>',
+  ];
+  const aliases = {
+    tape: ['CS-AT-0004', 'CS-EQ-0001'], wrap: ['CS-AT-0005', 'CS-AT-0006'],
+    bags: ['CS-AT-0008', 'CS-EQ-0004', 'CS-FC-0006'], soap: ['CS-LR-0001', 'CS-LR-0009'],
+  };
+  const available = p => p.cents !== null && p.availability !== 'out';
+  const unit = (p, count) => count === 1 ? p.unit : ({ box: 'boxes', each: 'units' }[p.unit] || p.unit + 's');
+  const icon = p => '<span class="cs-icon cs-icon-' + categories.indexOf(p.category) + '" aria-hidden="true">' +
+    '<svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">' +
+    (icons[categories.indexOf(p.category)] || icons[2]) + '</svg></span>';
+  function productImage(p) {
+    const image=p.image;
+    if(!image?.approvedBy || !image?.licenseNote ||
+       !['manufacturer','licensed_supplier','own_photo'].includes(image.sourceType) ||
+       !/^\/assets\/products\/[a-z0-9_./-]+\.(?:webp|jpe?g)$/i.test(image.url) || image.url.includes('..'))return icon(p);
+    return '<img class="cs-photo" loading="lazy" width="48" height="48" src="'+escape(image.url)+'" alt="'+escape(p.name+', '+p.pack)+'">';
+  }
+  const label = p => p.availability === 'out' ? 'Out at source' : p.cents === null ? 'Price on request' : p.availability === 'limited' ? 'Limited' : 'Sample stock';
+  const badge = p => '<span class="cs-availability ' + (available(p) ? 'cs-stock' : 'cs-unknown') + '">' + label(p) + '</span>';
+  const button = (action, content, sku = '', css = '', attrs = '') =>
+    '<button type="button" class="' + css + '" data-action="' + action + '" data-sku="' + escape(sku) + '" ' + attrs + '>' + content + '</button>';
+  function matches(term, products) {
+    if (aliases[term]) return aliases[term].map(sku => products.find(p => p.sku === sku)).filter(Boolean);
+    const exact = products.filter(p => p.synonyms.some(s => normal(s) === term) || normal(p.name) === term);
+    if (exact.length) {
+      const usuals = exact.filter(p => p.par);
+      return usuals.length ? usuals : exact;
+    }
+    if (term.length < 3) return [];
+    const partial = products.filter(p => [p.name, ...p.synonyms].some(s => normal(s).includes(term)));
+    const usuals = partial.filter(p => p.par);
+    return usuals.length ? usuals : partial;
+  }
+  function parseQuick(text, products) {
+    return text.split(/[,;\n]|\s+and\s+/i).map(segment => {
+      const clean = normal(segment).replace(/^(?:(?:i |we )?need |add |please )+/,'');
+      const skip = /^skip\b/.test(clean);
+      const words = clean.replace(/^skip\s+/, '');
+      const amount = words.match(/^(\d+)(?:\s+|$)/);
+      const term = words.replace(/^\d+\s*/, '').replace(/^(?:boxes|box|packs?|bottles?|cases?|cans?|rolls?|jars?|cartons?|units?)(?:\s+of)?\s+/, '').trim();
+      const options = matches(term, products);
+      return { term, skip, qty: amount ? Number(amount[1]) : null, options, sku: options.length === 1 ? options[0].sku : '' };
+    }).filter(edit => edit.term);
+  }
+  window.showCatalog = async function showCatalog(root, api, role = 'manager', section = 'usuals') {
+    if (root._csDestroy) root._csDestroy();
+    let active = true, busy = false, saver = Promise.resolve(), pendingSaves = 0, saveError = '', draftMeta = {}, estimate, page = section === 'catalog' ? 'catalog' : 'usuals';
+    let query = '', category = '', filter = '', details = '', quickText = '', quickEdits = [], feedback = '', po = '', center = '', needBy = '';
+    let quantities, products, submittedId = '';
+    const abort = new AbortController();
+    const beforeUnload = e => { if (saveError || pendingSaves) { e.preventDefault();e.returnValue=''; } };
+    window.addEventListener('beforeunload',beforeUnload,{signal:abort.signal});
+    root._csDestroy = () => { active = false; abort.abort(); };
+    const shell = document.createElement('section');
+    shell.className = 'cs-store';
+    root.replaceChildren(shell);
+    shell.textContent = 'Opening the supply room…';
+    function live() { return active && root.contains(shell); }
+    const [data, draft] = await Promise.all([api('/catalog'), api('/draft')]);
+    if (!live()) return;
+    products = data.filter(p => !p.hidden);
+    quantities = { ...(draft.quantities || {}) };
+    draftMeta = draft;
+    po = draft.po || '';
+    center = draft.costCenter || '';
+    needBy = draft.needBy || '';
+    const bySku = sku => products.find(p => p.sku === sku);
+    const count = sku => Number(quantities[sku] || 0);
+    const lines = () => products.filter(p => count(p.sku) > 0 && available(p));
+    const subtotal = () => lines().reduce((sum,p) => sum + p.cents * count(p.sku),0);
+    const signal = abort.signal;
+    const actor = typeof role === 'string' ? role : role.role;
+    const editable = ['manager','approver','operator','admin'].includes(actor);
+    window.cageDraftCanLeave=async()=>{
+      await saver;
+      if(saveError && !window.confirm(saveError+' Leave and discard unsaved changes?'))return false;
+      root._csDestroy();
+      window.cageDraftCanLeave=null;
+      return true;
+    };
+    function scheduleSave() {
+      const snapshot = { quantities: { ...quantities }, po, costCenter: center, needBy };
+      saveError = '';
+      pendingSaves++;
+      saver = saver.then(async () => {
+        try {
+          const saved = await api('/draft', 'PUT', {...snapshot, version:draftMeta.version, draftId:draftMeta.draftId});
+          draftMeta = saved;
+          saveError = '';
+        }
+        catch (e) { saveError = e.message || 'Could not save draft.'; }
+        finally {pendingSaves--;}
+        if (live()) {
+          const status = shell.querySelector('.cs-save');
+          if (status) status.textContent = saveError || 'Demo draft saved';
+        }
+      });
+    }
+    function setQty(p, qty) {
+      if (!editable || !available(p) || !Number.isSafeInteger(qty) || qty < 0 || qty > 9999 || qty % p.step) return;
+      quantities[p.sku] = qty;
+      estimate = null;
+      scheduleSave();
+    }
+    const field = (id, title, value, type = 'text') => '<label class="cs-field">' + title +
+      '<input type="' + type + '" id="' + id + '" value="' + escape(value) + '" maxlength="100"></label>';
+    function summary(review = false) {
+      const total = estimate?.totals;
+      return '<aside class="cs-summary"><h3>' + (review ? 'Estimated invoice' : 'This refill') + '</h3>' +
+        '<div class="cs-summary-row"><span>Merchandise · ' + lines().length + ' lines</span><strong>' + money(subtotal()) + '</strong></div>' +
+        (review && total ? [['Estimated delivery',total.delivery_cents],['CageStock service fee',total.fee_cents],['Estimated tax',total.tax_cents],['Estimated total',total.total_cents]].map(([name,c]) => '<div class="cs-summary-row"><span>'+name+'</span><strong>'+money(c)+'</strong></div>').join('') : '') +
+        (review && estimate?.has_unquoted_shipping ? '<p>Specialty freight awaits a quote.</p>' : '') +
+        (review ? '<p>Illustrative estimate for this sample order.</p>' : '<p>Delivery, service fee and estimated tax appear at review.</p>') +
+        (review ? button('submit', actor==='approver' && !estimate?.has_unquoted_shipping ? 'Approve order' : 'Preview sample invoice', '', 'cs-primary', busy ? 'disabled' : '') : button('review','Review order <span aria-hidden="true">→</span>', '', 'cs-primary', lines().length && editable ? '' : 'disabled')) +
+        '<small>CageStock, a service of LiveState Technologies LLC.</small></aside>';
+    }
+    function controls(p) {
+      if (!editable) return '';
+      if (p.availability === 'out') return '<span class="cs-muted">Unavailable</span>';
+      if (p.cents === null) return button('price','Request price',p.sku,'cs-secondary');
+      const qty = count(p.sku);
+      return '<div class="cs-step">' + button('minus','−',p.sku,'','aria-label="Decrease '+escape(p.name)+'" '+(!qty ? 'disabled' : '')) +
+        '<output aria-label="Quantity">' + qty + '</output>' +
+        button('plus','+',p.sku,'','aria-label="Increase '+escape(p.name)+'"')+'</div>';
+    }
+    function row(p,usual = false) {
+      return '<article class="cs-item">'+productImage(p)+'<div class="cs-info">'+button('detail',escape(p.name),p.sku,'cs-name') +
+        '<p>'+escape(p.pack)+'</p><div class="cs-item-meta">'+badge(p)+(p.purchaseCount ? '<span class="cs-history">Previously purchased</span>' : '')+(usual ? '<span>Usual '+p.par+' '+escape(unit(p,p.par))+'</span>' : '')+'</div></div>'+
+        '<div class="cs-cost">'+(p.cents === null ? '—' : money(p.cents))+'<small>per '+escape(p.unit)+'</small></div>'+
+        '<div class="cs-actions">'+controls(p)+(usual && editable && count(p.sku)>0 ? button('skip','Skip this time',p.sku,'cs-link') : '')+'</div></article>';
+    }
+    function quickPanel() {
+      return '<form class="cs-quick" id="csQuick"><label for="csSearch">Find supplies</label><div class="cs-quick-line"><input id="csSearch" autocomplete="off" maxlength="600" required placeholder="Search products or type a refill list" value="'+escape(query)+'"><button class="cs-secondary" type="submit">Check items</button></div><div id="csSuggestions"></div></form>'+
+        (!quickEdits.length ? '' : '<div class="cs-match"><h3>Check your changes</h3>'+quickEdits.map((e,i) => {
+          const p=bySku(e.sku);
+          if (!e.options.length) return '<p>Couldn’t match “'+escape(e.term)+'”. '+button('search-miss','Search catalog',String(i),'cs-link')+'</p>';
+          if (!p) return '<div><b>Which '+escape(e.term)+'?</b><div class="cs-choices">'+e.options.map(v=>button('resolve',escape(v.name),v.sku,'cs-secondary','data-index="'+i+'"')).join('')+'</div></div>';
+          if (!available(p) && !e.skip) return '<p>'+escape(p.name)+' · '+label(p)+'</p>';
+          const q=e.skip?0:Math.ceil((e.qty ?? p.step)/p.step)*p.step;
+          return '<p><b>'+escape(p.name)+'</b> · '+(e.skip ? 'Skip this refill' : q+' '+escape(unit(p,q)))+
+            (e.qty && e.qty !== q && !e.skip ? ' (rounded up to a full pack)' : '')+'</p>';
+        }).join('')+button('apply','Apply matched changes','','cs-primary')+' '+button('discard','Cancel','','cs-secondary')+'</div>');
+    }
+    function suggestions() {
+      const term=normal(query).trim();
+      if(!term)return '';
+      const matches=products.filter(p=>normal([p.name,p.pack,p.sku,...p.synonyms].join(' ')).includes(term));
+      matches.sort((a,b)=>(b.lastPurchasedAt||'').localeCompare(a.lastPurchasedAt||'') ||
+        (b.purchaseCount||0)-(a.purchaseCount||0) || a.name.localeCompare(b.name));
+      return matches.slice(0,8).map(p=>button('suggest',escape(p.name)+'<small>'+escape(p.pack)+
+        (p.purchaseCount?' · Previously purchased':'')+'</small>',p.sku,'cs-suggest')).join('');
+    }
+    function listing() {
+      const usual=page==='usuals';
+      let result=products.filter(p=>(!usual||query.trim()||p.par>0)&&(!category||p.category===category));
+      if (filter==='stock') result=result.filter(available);
+      if (filter==='usual') result=result.filter(p=>p.par>0);
+      if (filter==='quote') result=result.filter(p=>p.cents===null);
+      if (query.trim()) result=result.filter(p=>normal([p.name,p.pack,p.sku,...p.synonyms].join(' ')).includes(normal(query)));
+      result.sort((a,b)=>(b.purchaseCount||0)-(a.purchaseCount||0) || (usual ? (a.usualRank||100)-(b.usualRank||100) : 0));
+      return '<div class="cs-list-head"><span>' + (usual ? 'USUAL SUPPLIES' : 'PRODUCTS') + '</span><span>' + result.length + ' items</span></div>' +
+        (result.length ? result.map(p=>row(p,usual)).join('') : '<div class="cs-empty">No matching supplies.</div>');
+    }
+    function render(focusSku,focusAction) {
+      if (!live()) return;
+      const usual=page==='usuals', review=page==='review';
+      const headings={usuals:'Usual refill',catalog:'Supply catalog',review:'Review your order'};
+      const p=bySku(details);
+      if(submittedId) {
+        shell.innerHTML='<div class="cs-review-head"><span class="cs-eyebrow">Prairie Union Athletic Club</span><h2>Order '+escape(submittedId)+'</h2><p role="status">'+escape(feedback)+'</p>'+button('orders','Open orders','','cs-primary')+'</div>';
+        return;
+      }
+      shell.innerHTML='<div class="cs-heading"><div><span class="cs-eyebrow">Prairie Union Athletic Club</span><h1>'+headings[page]+'</h1></div>'+
+        '<span class="cs-save" aria-live="polite">'+escape(saveError || 'Sample draft')+'</span></div>'+
+        '<div class="cs-status" role="status">'+escape(feedback)+'</div>'+
+        (p ? '<section class="cs-detail">'+button('close-detail','← Back to supplies','','cs-link')+'<div class="cs-detail-head">'+productImage(p)+'<div><span class="cs-eyebrow">'+escape(p.category)+'</span><h2>'+escape(p.name)+'</h2></div></div><p>'+escape(p.pack)+' · '+escape(p.sku)+'</p>'+badge(p)+'<dl><dt>Order increment</dt><dd>'+p.step+' '+escape(unit(p,p.step))+'</dd><dt>Estimated unit price</dt><dd>'+(p.cents===null?'Price on request':money(p.cents))+'</dd></dl>'+
+          (editable && available(p) ? '<div class="cs-cart-action">'+button('add-cart','Add to cart',p.sku,'cs-primary',count(p.sku)+p.step>9999?'disabled':'')+'<span>'+p.step+' '+escape(unit(p,p.step))+' · '+money(p.step*p.cents)+'</span></div>' : controls(p))+
+          (editable && !p.oneTime && available(p)?'<details class="cs-usual-editor"><summary>Usual quantity · '+p.par+' '+escape(unit(p,p.par))+'</summary><form id="csPar"><div class="cs-step">'+button('usual-less','−',p.sku,'','aria-label="Decrease usual quantity" '+(p.par===0?'disabled':''))+'<output id="csParQty" aria-label="Usual quantity">'+p.par+'</output>'+button('usual-more','+',p.sku,'','aria-label="Increase usual quantity"')+'</div><button class="cs-secondary">Save usual quantity</button></form></details>':'')+'</section>':
+        review ? button('back','← Edit refill','','cs-link')+'<div class="cs-layout"><section class="cs-list"><div class="cs-review-head"><h2>Delivery &amp; PO</h2><p>Main receiving dock · Prairie Union Athletic Club</p><div class="cs-review-fields">'+field('csPo','Sample PO number',po)+field('csCenter','Sample cost center (optional)',center)+field('csNeed','Need by (optional)',needBy,'date')+'</div></div>'+
+          lines().map(p=>'<div class="cs-review-row"><div><strong>'+escape(p.name)+'</strong><small>'+count(p.sku)+' '+escape(unit(p,count(p.sku)))+' · '+escape(p.pack)+'</small></div><strong>'+money(p.cents*count(p.sku))+'</strong></div>').join('')+
+          '<div class="cs-deliver"><h3>Delivery plan</h3>'+deliveryPlan()+'</div></section>'+summary(true)+'</div>':
+        '<div class="cs-layout"><div>'+quickPanel()+
+          '<div class="cs-filters">'+
+          '<label>Area<select id="csCategory"><option value="">All areas</option>'+categories.map(c=>'<option '+(c===category?'selected':'')+'>'+escape(c)+'</option>').join('')+'</select></label>'+
+          '<label>Show<select id="csFilter">'+[['','All supplies'],['stock','In stock'],['usual','Usual items'],['quote','Price on request']].map(([v,t])=>'<option value="'+v+'" '+(filter===v?'selected':'')+'>'+t+'</option>').join('')+'</select></label></div>'+
+          '<div class="cs-list" id="csResults">'+listing()+'</div></div>'+summary()+'</div>');
+      if(focusSku && focusAction) shell.querySelector('[data-action="'+focusAction+'"][data-sku="'+focusSku+'"]')?.focus({preventScroll:true});
+    }
+    function deliveryPlan() {
+      const windows={'Local delivery':[1,2],Shipped:[2,5],'Specialty shipment':[3,7]};
+      return (estimate?.groups || []).map((group,index)=>{
+        const name=group.delivery_label;
+        const items=(group.skus||[]).map(bySku).filter(Boolean);
+        if(!windows[name])return '<p><strong>Delivery group '+(index+1)+'</strong><br><small>'+items.map(p=>escape(p.name)).join(' · ')+'</small></p>';
+        const [min,max]=windows[name];
+        const date=new Date(); let i=0; while(i<max){date.setDate(date.getDate()+1);if(![0,6].includes(date.getDay()))i++;}
+        return '<p><strong>'+name+'</strong> · '+min+'–'+max+' business days (estimated)<br><small>'+items.map(p=>escape(p.name)).join(' · ')+'</small>'+
+          (needBy && new Date(needBy+'T23:59:59')<date?'<br><b class="cs-alert">May arrive after your need-by date.</b>':'')+'</p>';
+      }).join('');
+    }
+    shell.addEventListener('input',e=>{
+      if(e.target.id==='csSearch'){query=e.target.value;quickEdits=[];shell.querySelector('.cs-match')?.remove();shell.querySelector('#csSuggestions').innerHTML=suggestions();shell.querySelector('#csResults').innerHTML=listing();}
+
+      if(e.target.id==='csPo') po=e.target.value;
+      if(e.target.id==='csCenter') center=e.target.value;
+      if(e.target.id==='csNeed') needBy=e.target.value;
+    },{signal});
+    shell.addEventListener('keydown',e=>{
+      const menu=shell.querySelector('#csSuggestions');
+      if(!menu || !(menu.contains(e.target)||e.target.id==='csSearch'))return;
+      const options=[...menu.querySelectorAll('button')],i=options.indexOf(e.target);
+      if(e.key==='Escape'){e.preventDefault();shell.querySelector('#csSearch').focus();menu.replaceChildren();}
+      else if(options.length && ['ArrowDown','ArrowUp'].includes(e.key)){
+        e.preventDefault();options[i<0?(e.key==='ArrowDown'?0:options.length-1):(i+(e.key==='ArrowDown'?1:-1)+options.length)%options.length].focus();
+      }
+    },{signal});
+    document.addEventListener('click',e=>{
+      if(!e.target.closest('#csQuick'))shell.querySelector('#csSuggestions')?.replaceChildren();
+    },{signal});
+    shell.addEventListener('focusin',e=>{
+      if(e.target.id==='csSearch')shell.querySelector('#csSuggestions').innerHTML=suggestions();
+    },{signal});
+    shell.addEventListener('change',e=>{
+      if(e.target.id==='csCategory'){category=e.target.value;render();}
+      if(e.target.id==='csFilter'){filter=e.target.value;render();}
+      if(['csPo','csCenter','csNeed'].includes(e.target.id)){scheduleSave();if(e.target.id==='csNeed')render();}
+    },{signal});
+    shell.addEventListener('submit',async e=>{
+      e.preventDefault();
+      if(!editable)return;
+      if(e.target.id==='csQuick'){
+        quickEdits=parseQuick(query,products);feedback='';render();
+      } else if(e.target.id==='csPar'){
+        const p=bySku(details), qty=Number(shell.querySelector('#csParQty').value);
+        if(!Number.isInteger(qty)||qty<0||qty>9999||qty%p.step){feedback='Use a multiple of '+p.step+'.';render();return;}
+        try {await api('/usual','PUT',{sku:p.sku,par:qty});p.par=qty;feedback='Saved to usual list.';}
+        catch(error){feedback=error.message;}render();
+      }
+    },{signal});
+    shell.addEventListener('click',async e=>{
+      const b=e.target.closest('button[data-action]');if(!b||busy)return;
+      const action=b.dataset.action,p=bySku(b.dataset.sku);
+      if(!editable && ['plus','minus','skip','price','submit','apply'].includes(action))return;
+      feedback='';
+      try {
+        if(action==='usual-less'||action==='usual-more'){
+          const output=shell.querySelector('#csParQty');
+          const qty=Math.max(0,Math.min(Math.floor(10000/p.step)*p.step,Number(output.value)+(action==='usual-more'?p.step:-p.step)));
+          output.value=String(qty);
+          shell.querySelector('[data-action="usual-less"]').disabled=qty===0;
+          shell.querySelector('[data-action="usual-more"]').disabled=qty+p.step>10000;
+          return;
+        }
+        if(action==='add-cart'){
+          if(!editable||!available(p)||count(p.sku)+p.step>9999)return;
+          setQty(p,count(p.sku)+p.step);
+          details='';feedback='Added '+p.step+' '+unit(p,p.step)+' of '+p.name+' to your cart.';
+          render();shell.querySelector('.cs-status').scrollIntoView({block:'nearest'});
+          return;
+        }
+        if(action==='orders'){window.dispatchEvent(new CustomEvent('cagestock:orders',{detail:{id:submittedId}}));return;}
+        if(action==='plus'||action==='minus'||action==='skip'){
+          setQty(p,action==='skip'?0:Math.max(0,count(p.sku)+(action==='plus'?1:-1)*p.step));render(p.sku,action);return;
+        }
+        if(action==='suggest'||action==='detail'){details=p.sku;render();shell.scrollIntoView({block:'start'});return;}
+        if(action==='close-detail')details='';
+        if(action==='usuals'||action==='catalog'||action==='back'){page=action==='back'?'usuals':action;details='';query='';category='';filter='';}
+        if(action==='price'){b.disabled=true;await api('/price-request','POST',{sku:p.sku});feedback='Sample price inquiry recorded on this device.';}
+        if(action==='resolve'){quickEdits[Number(b.dataset.index)].sku=p.sku;}
+        if(action==='search-miss'){page='catalog';query=quickEdits[Number(b.dataset.sku)].term;category='';filter='';}
+        if(action==='discard'){quickEdits=[];query='';}
+        if(action==='apply'){
+          if(quickEdits.some(x=>x.qty!==null && (!Number.isSafeInteger(x.qty)||x.qty>9999))){feedback='Use a whole quantity under 10,000.';}
+          else if(quickEdits.some(x=>x.options.length>1&&!x.sku)){feedback='Choose each ambiguous item before applying.';}
+          else {
+            const changes=quickEdits.filter(x=>x.sku&&available(bySku(x.sku)));
+            for(const edit of changes){const item=bySku(edit.sku);quantities[item.sku]=edit.skip?0:Math.ceil((edit.qty??item.step)/item.step)*item.step;}
+            quickEdits=quickEdits.filter(x=>!changes.includes(x));if(!quickEdits.length)query='';
+            estimate=null;scheduleSave();feedback=changes.length+' matched '+(changes.length===1?'item updated.':'items updated.');
+          }
+        }
+        if(action==='review'){
+          busy=true;b.disabled=true;await saver;
+          if(saveError){scheduleSave();await saver;if(saveError)throw Error(saveError);}
+          estimate=await api('/estimate','POST',{quantities});page='review';shell.scrollIntoView({block:'start'});
+        }
+        if(action==='submit'){
+          busy=true;b.disabled=true;await saver;
+          if(saveError){scheduleSave();await saver;if(saveError)throw Error(saveError);}
+          const approveNow=actor==='approver'&&!estimate?.has_unquoted_shipping;
+          if(approveNow&&!po.trim())throw Error('Enter a team PO number before approving.');
+          const order=await api('/submit','POST',{quantities,po:po.trim(),costCenter:center.trim(),needBy,draftId:draftMeta.draftId,version:draftMeta.version});
+          if(approveNow && order.status==='pending_approval'){
+            try { await api('/orders/'+encodeURIComponent(order.id)+'/actions','POST',{action:'approve',po:po.trim()}); }
+            catch(error) { submittedId=order.id;feedback='Submitted for approval. '+error.message;render();return; }
+          }
+          window.dispatchEvent(new CustomEvent('cagestock:orders',{detail:{id:order.id}}));return;
+        }
+      }catch(error){feedback=error.message||'Could not complete this action.';}
+      finally{busy=false;}
+      render();
+    },{signal});
+    render();
+  };
+})();</script><script>
+const catalog=[{"sku":"CS-LR-0001","name":"Dove Sensitive Skin body wash with pump","category":"Locker room","pack":"30.6 fl oz, twin-pack","unit":"bottle","step":2,"cents":949,"availability":"in_stock","par":6,"usualRank":1,"oneTime":false,"synonyms":["dove","body wash","soap"]},{"sku":"CS-LR-0002","name":"Extra Spearmint gum","category":"Locker room","pack":"15 sticks per pack, 10-pack","unit":"10-pack","step":1,"cents":1228,"availability":"in_stock","par":1,"usualRank":4,"oneTime":false,"synonyms":["gum","extra"]},{"sku":"CS-LR-0003","name":"C&C individually wrapped twin-blade razors","category":"Locker room","pack":"500 count","unit":"case","step":1,"cents":9119,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["razors"]},{"sku":"CS-LR-0004","name":"Listerine Coolmint mouthwash","category":"Locker room","pack":"1.5 L bottle","unit":"bottle","step":1,"cents":1345,"availability":"in_stock","par":2,"usualRank":7,"oneTime":false,"synonyms":["mouthwash","listerine"]},{"sku":"CS-LR-0005","name":"Go Mint mouthwash packets","category":"Locker room","pack":"0.37 oz, 20-count box","unit":"box","step":1,"cents":1150,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["mouthwash packets"]},{"sku":"CS-LR-0006","name":"Plackers dental flossers","category":"Locker room","pack":"1,000 per case","unit":"case","step":1,"cents":11921,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["floss","flossers"]},{"sku":"CS-LR-0007","name":"ReadyBrush Renew bamboo disposable toothbrush","category":"Locker room","pack":"144 count","unit":"box","step":1,"cents":12985,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["toothbrush"]},{"sku":"CS-LR-0008","name":"Brut aerosol deodorant","category":"Locker room","pack":"6 oz","unit":"can","step":1,"cents":645,"availability":"in_stock","par":6,"usualRank":6,"oneTime":false,"synonyms":["deodorant","brut"]},{"sku":"CS-LR-0009","name":"Zest Aqua bar soap","category":"Locker room","pack":"3.2 oz, 48 per case","unit":"case","step":1,"cents":7195,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["bar soap","zest","soap"]},{"sku":"CS-LR-0010","name":"Jack Black Turbo body lotion","category":"Locker room","pack":"16 oz","unit":"bottle","step":1,"cents":2295,"availability":"out","par":0,"usualRank":null,"oneTime":false,"synonyms":["lotion"]},{"sku":"CS-LR-0011","name":"O'Keeffe's Working Hands cream","category":"Locker room","pack":"2.7 oz tube, 6 per case","unit":"case","step":1,"cents":null,"availability":"unknown","par":0,"usualRank":null,"oneTime":false,"synonyms":["hand cream","working hands"]},{"sku":"CS-AT-0001","name":"Member's Mark nitrile exam gloves, large","category":"Athletic training","pack":"200 count box","unit":"box","step":1,"cents":1098,"availability":"in_stock","par":1,"usualRank":2,"oneTime":false,"synonyms":["gloves","nitrile"]},{"sku":"CS-AT-0002","name":"Life Guard black nitrile exam gloves, large, 5.5 mil","category":"Athletic training","pack":"2 × 100","unit":"box","step":2,"cents":1225,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["gloves","black gloves"]},{"sku":"CS-AT-0003","name":"Band-Aid sheer strips, assorted","category":"Athletic training","pack":"80 count","unit":"box","step":1,"cents":698,"availability":"in_stock","par":2,"usualRank":8,"oneTime":false,"synonyms":["bandaids","band-aid"]},{"sku":"CS-AT-0004","name":"Mueller MTape white athletic tape","category":"Athletic training","pack":"1.5 in × 15 yd, 32 rolls","unit":"case","step":1,"cents":7899,"availability":"in_stock","par":1,"usualRank":9,"oneTime":false,"synonyms":["athletic tape","tape"]},{"sku":"CS-AT-0005","name":"Mueller M Wrap prewrap","category":"Athletic training","pack":"case of 48","unit":"case","step":1,"cents":6595,"availability":"in_stock","par":1,"usualRank":10,"oneTime":false,"synonyms":["prewrap","wrap"]},{"sku":"CS-AT-0006","name":"Cramer Flex-i-Wrap with handle dispenser","category":"Athletic training","pack":"6 in, 6 per case","unit":"case","step":1,"cents":8899,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["flex wrap","stretch wrap","wrap"]},{"sku":"CS-AT-0007","name":"ACE elastic bandage with clips","category":"Athletic training","pack":"6 in","unit":"each","step":1,"cents":null,"availability":"unknown","par":0,"usualRank":null,"oneTime":false,"synonyms":["ace bandage"]},{"sku":"CS-AT-0008","name":"Econoline E-Line ice bags","category":"Athletic training","pack":"12 × 20 in, 2 mil, 1,000 per case","unit":"case","step":1,"cents":null,"availability":"unknown","par":0,"usualRank":null,"oneTime":false,"synonyms":["ice bags","bags"]},{"sku":"CS-AT-0009","name":"Hydrocollator moist heat pack, standard","category":"Athletic training","pack":"10 × 12 in","unit":"each","step":1,"cents":2750,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["hot pack"]},{"sku":"CS-AT-0010","name":"CanDo low-powder exercise band, yellow","category":"Athletic training","pack":"6 yd roll","unit":"roll","step":1,"cents":1500,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["band","theraband"]},{"sku":"CS-AT-0011","name":"CanDo Plus foam roller","category":"Athletic training","pack":"6 × 36 in","unit":"each","step":1,"cents":3250,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["foam roller"]},{"sku":"CS-AT-0012","name":"BIOTONE Advanced Therapy massage creme","category":"Athletic training","pack":"16 oz","unit":"jar","step":1,"cents":3125,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["massage cream"]},{"sku":"CS-AT-0013","name":"BIOTONE Advanced Therapy massage creme","category":"Athletic training","pack":"1 gallon","unit":"gallon","step":1,"cents":8795,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["massage cream gallon"]},{"sku":"CS-EQ-0001","name":"Scotch Heavy Duty shipping tape with dispenser","category":"Equipment & travel","pack":"1.88 in × 27.7 yd, 6-pack","unit":"6-pack","step":1,"cents":1496,"availability":"in_stock","par":1,"usualRank":3,"oneTime":false,"synonyms":["packing tape","shipping tape","tape"]},{"sku":"CS-EQ-0002","name":"Sharpie chisel tip marker, black","category":"Equipment & travel","pack":"single","unit":"each","step":1,"cents":280,"availability":"in_stock","par":6,"usualRank":11,"oneTime":false,"synonyms":["sharpie","marker"]},{"sku":"CS-EQ-0003","name":"Clear luggage tag loop straps","category":"Equipment & travel","pack":"6 in, 100 per pack","unit":"pack","step":1,"cents":414,"availability":"in_stock","par":1,"usualRank":12,"oneTime":false,"synonyms":["luggage loops","tag loops"]},{"sku":"CS-EQ-0004","name":"Mesh laundry / travel bag with drawcord","category":"Equipment & travel","pack":"24 × 36 in, white","unit":"each","step":1,"cents":1588,"availability":"in_stock","par":0,"usualRank":null,"oneTime":false,"synonyms":["mesh bag","laundry bag","bags"]},{"sku":"CS-EQ-0005","name":"S5 safety box cutter, right-handed","category":"Equipment & travel","pack":"12 per case","unit":"case","step":1,"cents":null,"availability":"unknown","par":0,"usualRank":null,"oneTime":false,"synonyms":["box cutter"]},{"sku":"CS-EQ-0006","name":"Titanium bonded office scissors","category":"Equipment & travel","pack":"8 in straight","unit":"each","step":1,"cents":1345,"availability":"out","par":0,"usualRank":null,"oneTime":false,"synonyms":["scissors"]}];
+const storageKey='cagestock-public-demo-v1';
+let draft={quantities:{},po:'DEMO-1042'}, usual={};
+try { const saved=JSON.parse(sessionStorage.getItem(storageKey)||'{}'); draft={...draft,...saved.draft};usual=saved.usual||{} } catch {}
+function save(){try{sessionStorage.setItem(storageKey,JSON.stringify({draft,usual}))}catch{}}
+for(const p of catalog){p.purchaseCount=p.par?Math.max(1,20-(p.usualRank||19)):0;if(Object.hasOwn(usual,p.sku))p.par=usual[p.sku]}
+function estimate(q){const items=catalog.filter(p=>q[p.sku]>0&&p.cents!=null);const subtotal=items.reduce((n,p)=>n+p.cents*q[p.sku],0);const delivery=items.length?1200:0,fee=items.length?3000:0;return {totals:{delivery_cents:delivery,fee_cents:fee,tax_cents:0,total_cents:subtotal+delivery+fee},groups:items.length?[{delivery_label:'Shipped',skus:items.map(p=>p.sku)}]:[]}}
+async function demoApi(path,method,body){switch(path){case '/catalog':return catalog;case '/draft':if(method==='PUT'){draft={...body};save()}return draft;case '/usual':usual[body.sku]=body.par;save();return {};case '/price-request':return {};case '/estimate':return estimate(body.quantities);case '/submit':return {id:'DEMO-1042'};default:throw Error('Unavailable in this demo.')}}
+const main=document.getElementById('main');
+function openBuilder(){window.showCatalog(main,demoApi,'manager','catalog')}
+function money(cents){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(cents/100)}
+window.addEventListener('cagestock:orders',()=>{main._csDestroy?.();main.innerHTML='<section class="receipt"><small>PRAIRIE UNION ATHLETIC CLUB</small><h1>Sample AP invoice</h1><p id="po"></p><ul></ul><dl></dl><p>Demo only. No payment is due.</p><button type="button">Back to order builder</button></section>';main.querySelector('#po').textContent='Team PO · '+(draft.po||'Unassigned');for(const p of catalog.filter(p=>draft.quantities[p.sku]>0)){const li=document.createElement('li');li.textContent=p.name+' × '+draft.quantities[p.sku]+' · '+money(p.cents*draft.quantities[p.sku]);main.querySelector('ul').append(li)}const t=estimate(draft.quantities).totals;for(const [name,value] of [['Sample delivery',t.delivery_cents],['Sample service fee',t.fee_cents],['Sample tax',t.tax_cents],['Sample invoice total',t.total_cents]]){let dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=name;dd.textContent=money(value);main.querySelector('dl').append(dt,dd)}main.querySelector('button').onclick=openBuilder;window.scrollTo(0,0)});openBuilder();
+</script></body></html>
