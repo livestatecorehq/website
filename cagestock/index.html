@@ -146,7 +146,9 @@ header{border-bottom:3px solid #ee8656}
       const amount = words.match(/^(\d+)(?:\s+|$)/);
       const term = words.replace(/^\d+\s*/, '').replace(/^(?:boxes|box|packs?|bottles?|cases?|cans?|rolls?|jars?|cartons?|units?)(?:\s+of)?\s+/, '').trim();
       const options = matches(term, products);
-      return { term, skip, qty: amount ? Number(amount[1]) : null, options, sku: options.length === 1 ? options[0].sku : '' };
+      const cans = amount && /^\d+\s+cans?\b/.test(words) && options.length===1 && options[0].cansPerPack;
+      const qty = amount ? (cans ? Math.ceil(Number(amount[1])/cans) : Number(amount[1])) : null;
+      return { term, skip, qty, requestedCans:cans ? Number(amount[1]) : null, options, sku: options.length === 1 ? options[0].sku : '' };
     }).filter(edit => edit.term);
   }
   window.showCatalog = async function showCatalog(root, api, role = 'manager', section = 'usuals') {
@@ -233,7 +235,7 @@ header{border-bottom:3px solid #ee8656}
     }
     function row(p) {
       const product = button('detail', productImage(p)+'<span>'+escape(p.name)+'</span>', p.sku, 'cs-product');
-      const incrementLabel = p.step>1 ? p.step+' '+unit(p,p.step) : '';
+      const incrementLabel = p.addLabel || (p.step>1 ? p.step+' '+unit(p,p.step) : '');
       const add = editable && available(p) && !count(p.sku)
         ? button('plus',incrementLabel?'+ Add '+escape(incrementLabel):'+ Add',p.sku,'cs-add','aria-label="Add '+escape(incrementLabel+' '+p.name).trim()+'"') : controls(p);
       return '<article class="cs-card">'+product+'<p>'+escape(p.pack)+'</p>'+
@@ -250,7 +252,7 @@ header{border-bottom:3px solid #ee8656}
           if (!p) return '<div><b>Which '+escape(e.term)+'?</b><div class="cs-choices">'+e.options.map(v=>button('resolve',escape(v.name),v.sku,'cs-secondary','data-index="'+i+'"')).join('')+'</div></div>';
           if (!available(p) && !e.skip) return '<p>'+escape(p.name)+' · '+label(p)+'</p>';
           const q=e.skip?0:Math.ceil((e.qty ?? p.step)/p.step)*p.step;
-          return '<p><b>'+escape(p.name)+'</b> · '+(e.skip ? 'Skip this refill' : q+' '+escape(unit(p,q)))+
+          return '<p><b>'+escape(p.name)+'</b> · '+(e.skip ? 'Skip this refill' : q+' '+escape(unit(p,q))+(e.requestedCans ? ' ('+(q*p.cansPerPack)+' cans for '+e.requestedCans+' requested)' : ''))+
             (e.qty && e.qty !== q && !e.skip ? ' (rounded up to a full pack)' : '')+'</p>';
         }).join('')+button('apply','Apply matched changes','','cs-primary')+' '+button('discard','Cancel','','cs-secondary')+'</div>');
     }
@@ -462,8 +464,8 @@ const catalog=[
   {"sku":"CS-LR-0014","name":"Olay Ultra Moisture body wash","category":"Locker room","pack":"Large pump bottle","unit":"bottle","step":1,"cents":1199,"availability":"in_stock","par":0,"usualRank":0,"oneTime":false,"synonyms":["olay body wash","body wash","pump body wash"]},
   {"sku":"CS-LR-0015","name":"NIVEA Nourishing body wash","category":"Locker room","pack":"Large pump bottle","unit":"bottle","step":1,"cents":1099,"availability":"in_stock","par":0,"usualRank":0,"oneTime":false,"synonyms":["nivea body wash","body wash","pump body wash"]},
   {"sku":"CS-LR-0016","name":"Native body wash","category":"Locker room","pack":"Pump bottle","unit":"bottle","step":1,"cents":1299,"availability":"in_stock","par":0,"usualRank":0,"oneTime":false,"synonyms":["native body wash","body wash","pump body wash"]},
-  {"sku":"CS-LR-0017","name":"Dove Advanced Care dry spray deodorant","category":"Locker room","pack":"Multipack of spray cans","unit":"pack","step":1,"cents":1899,"availability":"in_stock","par":0,"usualRank":0,"oneTime":false,"synonyms":["dove spray","dove deodorant","dove dry spray","spray deodorant","deodorant"]},
-  {"sku":"CS-LR-0018","name":"Aveeno Daily Moisturizing lotion","category":"Locker room","pack":"Large pump bottle","unit":"bottle","step":1,"cents":1299,"availability":"in_stock","par":0,"usualRank":0,"oneTime":false,"synonyms":["aveeno lotion","lotion","pump lotion"]},
+  {"sku":"CS-LR-0017","name":"Dove Advanced Care Clear Finish dry spray deodorant","category":"Locker room","pack":"3 cans per pack, 4.8 oz each","unit":"pack","addLabel":"1 pack","cansPerPack":3,"step":1,"cents":1998,"availability":"in_stock","par":0,"usualRank":0,"oneTime":false,"synonyms":["dove spray","dove deodorant","dove dry spray","spray deodorant","deodorant"]},
+  {"sku":"CS-LR-0018","name":"Aveeno Daily Moisturizing lotion, fragrance-free","category":"Locker room","pack":"18 fl oz pump bottle","unit":"bottle","addLabel":"1 bottle","step":1,"cents":999,"availability":"in_stock","par":0,"usualRank":0,"oneTime":false,"synonyms":["aveeno lotion","lotion","pump lotion"]},
   {"sku":"CS-LR-0019","name":"Jergens Ultra Healing lotion","category":"Locker room","pack":"Large pump bottle","unit":"bottle","step":1,"cents":999,"availability":"in_stock","par":0,"usualRank":0,"oneTime":false,"synonyms":["jergens lotion","lotion","pump lotion"]},
   {"sku":"CS-LR-0020","name":"Vaseline Intensive Care body lotion","category":"Locker room","pack":"Large pump bottle","unit":"bottle","step":1,"cents":899,"availability":"in_stock","par":0,"usualRank":0,"oneTime":false,"synonyms":["vaseline lotion","lotion","pump lotion"]},
   {"sku":"CS-LR-0021","name":"Q-tips cotton swabs","category":"Locker room","pack":"Retail pack","unit":"pack","step":1,"cents":499,"availability":"in_stock","par":0,"usualRank":0,"oneTime":false,"synonyms":["qtips","q tips","q-tips","cotton swabs"]},
@@ -494,5 +496,5 @@ async function demoApi(path,method,body){switch(path){case '/catalog':return cat
 const main=document.getElementById('main');
 function openBuilder(){window.showCatalog(main,demoApi,'manager','catalog')}
 function money(cents){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(cents/100)}
-window.addEventListener('cagestock:orders',()=>{main._csDestroy?.();main.innerHTML='<section class="receipt"><small>PRAIRIE UNION ATHLETIC CLUB</small><h1>Sample AP invoice</h1><p id="po"></p><ul></ul><dl></dl><p>Demo only. No payment is due.</p><button type="button">Back to order builder</button></section>';main.querySelector('#po').textContent='Team PO · '+(draft.po||'Unassigned');for(const p of catalog.filter(p=>draft.quantities[p.sku]>0)){const li=document.createElement('li');li.textContent=p.name+' × '+draft.quantities[p.sku]+' · '+money(p.cents*draft.quantities[p.sku]);main.querySelector('ul').append(li)}const t=estimate(draft.quantities).totals;for(const [name,value] of [['Sample delivery',t.delivery_cents],['Sample service fee',t.fee_cents],['Sample tax',t.tax_cents],['Sample invoice total',t.total_cents]]){let dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=name;dd.textContent=money(value);main.querySelector('dl').append(dt,dd)}main.querySelector('button').onclick=openBuilder;window.scrollTo(0,0)});openBuilder();
+window.addEventListener('cagestock:orders',()=>{main._csDestroy?.();main.innerHTML='<section class="receipt"><small>PRAIRIE UNION ATHLETIC CLUB</small><h1>Sample AP invoice</h1><p id="po"></p><ul></ul><dl></dl><p>Demo only. No payment is due.</p><button type="button">Back to order builder</button></section>';main.querySelector('#po').textContent='Team PO · '+(draft.po||'Unassigned');for(const p of catalog.filter(p=>draft.quantities[p.sku]>0)){const li=document.createElement('li');li.textContent=p.name+' × '+draft.quantities[p.sku]+' '+(draft.quantities[p.sku]===1?p.unit:({box:'boxes',each:'units'}[p.unit]||p.unit+'s'))+' · '+p.pack+' · '+money(p.cents*draft.quantities[p.sku]);main.querySelector('ul').append(li)}const t=estimate(draft.quantities).totals;for(const [name,value] of [['Sample delivery',t.delivery_cents],['Sample service fee',t.fee_cents],['Sample tax',t.tax_cents],['Sample invoice total',t.total_cents]]){let dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=name;dd.textContent=money(value);main.querySelector('dl').append(dt,dd)}main.querySelector('button').onclick=openBuilder;window.scrollTo(0,0)});openBuilder();
 </script></body></html>
