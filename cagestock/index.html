@@ -68,6 +68,7 @@ header{border-bottom:3px solid #ee8656}
 .sub{font-size:12px;padding:6px 12px}
 .cs-heading{align-items:center;margin-bottom:16px}.cs-team{display:flex;align-items:center;gap:12px}
 .cs-monogram{display:grid;place-items:center;width:44px;height:48px;background:#16384c;color:#fff;font:italic 900 21px Arial;letter-spacing:-2px;clip-path:polygon(0 0,100% 0,100% 75%,50% 100%,0 75%);padding-bottom:5px;border-top:4px solid #f78a5d}
+.cs-team-mark{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0}.cs-team-mark small{font:600 9px/1.1 Arial;color:#637685;white-space:nowrap}
 .cs-heading h1{font:800 clamp(27px,3.4vw,44px)/1.04 Arial,sans-serif;letter-spacing:-.045em}.cs-heading .cs-eyebrow{margin-bottom:4px;font-size:10px}
 .cs-quick{padding:10px 12px;margin-bottom:8px}.cs-quick label{margin-bottom:5px}.cs-filters{margin:8px 0 16px}
 #csResults{border:0;background:none;overflow:visible}.cs-shelf{margin:0 0 25px}
@@ -296,7 +297,7 @@ window.cageTeamReady=(async()=>{const token=new URLSearchParams(location.hash.sl
         shell.innerHTML='<div class="cs-review-head"><span class="cs-eyebrow">'+escape(window.cageTeam.name)+'</span><h2>Order '+escape(submittedId)+'</h2><p role="status">'+escape(feedback)+'</p>'+button('orders','Open orders','','cs-primary')+'</div>';
         return;
       }
-      shell.innerHTML='<div class="cs-heading"><div class="cs-team"><span class="cs-monogram" aria-hidden="true">'+escape(window.cageTeam.initials)+'</span><div><span class="cs-eyebrow">'+escape(window.cageTeam.name)+' · SAMPLE PREVIEW</span><h1>'+headings[page]+'</h1></div></div>'+
+      shell.innerHTML='<div class="cs-heading"><div class="cs-team"><span class="cs-team-mark"><span class="cs-monogram" aria-hidden="true">'+escape(window.cageTeam.initials)+'</span><small>Team logo</small></span><div><span class="cs-eyebrow">'+escape(window.cageTeam.name)+' · SAMPLE PREVIEW</span><h1>'+headings[page]+'</h1></div></div>'+
         '<span class="cs-save" aria-live="polite">'+escape(saveError || 'Sample draft')+'</span></div>'+
         '<div class="cs-status" role="status">'+escape(feedback)+'</div>'+
         (p ? '<section class="cs-detail">'+button('close-detail','← Back to supplies','','cs-link')+'<div class="cs-detail-head">'+productImage(p)+'<div><span class="cs-eyebrow">'+escape(p.category)+'</span><h2>'+escape(p.name)+'</h2></div></div><p>'+escape(p.pack)+' · '+escape(p.sku)+'</p>'+badge(p)+'<dl><dt>Order increment</dt><dd>'+p.step+' '+escape(unit(p,p.step))+'</dd><dt>Estimated unit price</dt><dd>'+(p.cents===null?'Price on request':money(p.cents))+'</dd></dl>'+
