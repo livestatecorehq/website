@@ -495,13 +495,14 @@ const catalog=[
   {"sku":"CS-EQ-0011","name":"Tide liquid laundry detergent, travel stock","category":"Equipment & travel","pack":"Residential-size bottle","unit":"bottle","step":1,"cents":1099,"availability":"in_stock","par":0,"usualRank":0,"oneTime":false,"synonyms":["road laundry","tide","detergent","road trip supplies"]},
   {"sku":"CS-AT-0014","name":"Advil ibuprofen tablets","category":"Athletic training","pack":"Retail bottle","unit":"bottle","step":1,"cents":899,"availability":"in_stock","par":0,"usualRank":0,"oneTime":false,"synonyms":["advil","ibuprofen"]}
 ];
+const visibleCatalog = catalog.filter(product => product.availability === 'in_stock' && product.cents != null);
 const storageKey='cagestock-public-demo-v1';
 let draft={quantities:{},po:'DEMO-1042'}, usual={};
 try { const saved=JSON.parse(sessionStorage.getItem(storageKey)||'{}'); draft={...draft,...saved.draft};usual=saved.usual||{} } catch {}
 function save(){try{sessionStorage.setItem(storageKey,JSON.stringify({draft,usual}))}catch{}}
 for(const p of catalog){p.purchaseCount=p.par?Math.max(1,20-(p.usualRank||19)):0;if(Object.hasOwn(usual,p.sku))p.par=usual[p.sku]}
 function estimate(q){const items=catalog.filter(p=>q[p.sku]>0&&p.cents!=null);const subtotal=items.reduce((n,p)=>n+p.cents*q[p.sku],0);const delivery=items.length?1200:0,fee=items.length?3000:0;return {totals:{delivery_cents:delivery,fee_cents:fee,tax_cents:0,total_cents:subtotal+delivery+fee},groups:items.length?[{delivery_label:'Shipped',skus:items.map(p=>p.sku)}]:[]}}
-async function demoApi(path,method,body){switch(path){case '/catalog':return catalog;case '/draft':if(method==='PUT'){draft={...body};save()}return draft;case '/usual':usual[body.sku]=body.par;save();return {};case '/price-request':return {};case '/estimate':return estimate(body.quantities);case '/submit':return {id:'DEMO-1042'};default:throw Error('Unavailable in this demo.')}}
+async function demoApi(path,method,body){switch(path){case '/catalog':return visibleCatalog;case '/draft':if(method==='PUT'){draft={...body};save()}return draft;case '/usual':usual[body.sku]=body.par;save();return {};case '/price-request':return {};case '/estimate':return estimate(body.quantities);case '/submit':return {id:'DEMO-1042'};default:throw Error('Unavailable in this demo.')}}
 const main=document.getElementById('main');
 function openBuilder(){window.showCatalog(main,demoApi,'manager','catalog')}
 function money(cents){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(cents/100)}
